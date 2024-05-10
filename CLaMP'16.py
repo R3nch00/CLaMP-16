@@ -289,4 +289,48 @@ print('3. Classification Report -\n',classification_report(y_test, rf_pred))
 print('4. Confusion Matrix - \n',confusion_matrix(y_test, rf_pred))
 
 
+#Naive Bayes CLassifier(NB)
+
+df=df.drop(['NumberOfSections','CreationYear'],axis=1)
+le=LabelEncoder()
+for i in df:
+    if df[i].dtype=='object':
+        df[i]=le.fit_transform(df[i])
+    else:
+        continue
+
+
+X=df.drop(['class'],axis=1)
+y=df['class']
+
+X_train,X_test,y_train,y_test=train_test_split(X,y)
+
+sc=StandardScaler()
+X_train=sc.fit_transform(X_train)
+X_test=sc.transform(X_test)
+
+model=GaussianNB()
+model.fit(X_train,y_train)
+y_pred=model.predict(X_test)
+print(y_pred[:15])
+
+accuracy=accuracy_score(y_pred,y_test)
+print(accuracy)
+print(classification_report(y_test,y_pred))
+print('F1 Score: ',f1_score(y_test,y_pred,zero_division=1))
+confmat=confusion_matrix(y_true=y_test,y_pred=y_pred)
+
+
+print(confmat)
+
+fig, ax =plt.subplots(figsize=(12.5, 12.5))
+ax.matshow(confmat,  cmap=plt.cm.Blues, alpha=0.30)
+for i in range(confmat.shape[0]):
+  for j in range(confmat.shape[1]):
+    ax.text(x=j, y=i,
+            s=confmat[i, j],
+            va='center', ha='center')
+    plt.title('Using NBClassifier model at 90% accuracy prediction & 91% F-1 score on the malware dataset for identify false negatives and false positives as well as true positives and true negatives with 0 benine and 1 had a malware')
+    plt.xlabel('Predicted label')
+    plt.ylabel('True Label')
     
