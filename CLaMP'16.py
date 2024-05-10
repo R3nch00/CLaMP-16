@@ -368,3 +368,16 @@ print(d)
 print(classification_report(y_test,y_svm,zero_division=1))
 print('F1 Score: ',f1_score(y_test,y_svm,zero_division=1))
 confmat=confusion_matrix(y_true=y_test,y_pred=y_svm)
+
+
+    #Decision Tree Classifier
+tree=DecisionTreeClassifier()
+tree.fit(X_train,y_train)
+DecisionTreeClassifier()
+y_tree=tree.predict(X_test)
+
+f=accuracy_score(y_tree,y_test)
+print(f)
+print(classification_report(y_test,y_tree))
+print('F1 Score: ',f1_score(y_test,y_log))
+confmat=confusion_matrix(y_true=y_test,y_pred=y_log)
