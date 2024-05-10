@@ -381,3 +381,33 @@ print(f)
 print(classification_report(y_test,y_tree))
 print('F1 Score: ',f1_score(y_test,y_log))
 confmat=confusion_matrix(y_true=y_test,y_pred=y_log)
+
+
+    #Linear Discriminat Analysis
+y_disc= LinearDiscriminantAnalysis()
+y_disc.fit(X_train,y_train)
+LinearDiscriminantAnalysis()
+y_lin=y_disc.predict(X_test)
+
+f = accuracy_score(y_lin, y_test)
+print(f)
+print(classification_report(y_test,y_lin))
+print('F1 Score: ',f1_score(y_test,y_lin))
+confmat = confusion_matrix(y_true=y_test, y_pred=y_lin)
+
+
+    #Adaboost Model
+confmat1=confusion_matrix(y_true=y_test, y_pred=y_clf)
+
+print(confmat1)
+
+fig, ax =plt.subplots(figsize=(12.5, 12.5))
+ax.matshow(confmat1,  cmap=plt.cm.OrRd, alpha=0.30)
+for i in range(confmat1.shape[0]):
+  for j in range(confmat1.shape[1]):
+    ax.text(x=j, y=i,
+            s=confmat1[i, j],
+            va='center', ha='center')
+    plt.title('Using Adaboost model at 97% accuracy prediction & 97% F-1 score on the malware dataset for identify false negatives and false positives as well as true positives and true negatives. With 0 benine and 1 had a Malware.')
+    plt.xlabel('Predicted label')
+    plt.ylabel('True Label')
