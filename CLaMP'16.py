@@ -334,3 +334,37 @@ for i in range(confmat.shape[0]):
     plt.xlabel('Predicted label')
     plt.ylabel('True Label')
     
+
+clf=AdaBoostClassifier()
+clf.fit(X_train,y_train)
+
+y_clf=clf.predict(X_test)
+
+b=accuracy_score(y_clf,y_test)
+print(b)
+print(classification_report(y_test,y_clf))
+print('F1 Score: ',f1_score(y_test,y_clf,zero_division=1))
+confmat=confusion_matrix(y_true=y_test,y_pred=y_clf)    
+    
+    
+    #Logistic Regression
+log=LogisticRegression()
+log.fit(X_train,y_train)
+
+y_log=log.predict(X_test)
+
+c=accuracy_score(y_log,y_test)
+print(c)
+print(classification_report(y_test,y_log))
+print('F1 Score: ',f1_score(y_test,y_log))
+confmat=confusion_matrix(y_true=y_test,y_pred=y_log)
+
+svm=svm.SVC()
+svm.fit(X_train,y_train)
+y_svm=svm.predict(X_test)
+
+d=accuracy_score(y_svm,y_test)
+print(d)
+print(classification_report(y_test,y_svm,zero_division=1))
+print('F1 Score: ',f1_score(y_test,y_svm,zero_division=1))
+confmat=confusion_matrix(y_true=y_test,y_pred=y_svm)
