@@ -262,5 +262,29 @@ print(y_arr.shape)
 
 
 
+#Utility UDF's regarding dis cal
 
+    # distance calculation udf
+def minkowski_(point_a, point_b, p=2):
+    if p == 1:
+        print('----> Manhattan')
+        dist = np.sum(abs(point_a - point_b))
+        print('Manual Distance :', dist)
+    elif p == 2:
+        # print('----> Euclidean')
+        dist = np.sqrt(np.sum(np.square(point_a - point_b)))
+        # print('Manual Distance :',dist)
+
+    return dist
+
+    #Calculate distance from one point to all other points including itself
+def distance_to_all(curr_vec,data,p_=2):
+
+    distance_list = []
+
+    for vec_idx in range(len(data)):
+        dist = minkowski_(point_a=curr_vec,point_b=data[vec_idx],p=p_)
+        distance_list.append(dist)
+
+    return distance_list
 
