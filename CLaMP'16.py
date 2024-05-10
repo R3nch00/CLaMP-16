@@ -233,7 +233,32 @@ if set(catg).issubset(set(df.columns))==False:
 df.shape
 
 
+#Separate the target Col for Analysis & Scaling the data(Standard scaler)
 
+    #Test Train Split fro modeling purpose
+X=df.loc[:,[cols for cols in df.columns if ('class' not in cols)]]
+y=df.loc[:,[cols for cols in df.columns if 'class' in cols]]
+
+    #Scaling the feature
+scaler=StandardScaler()
+X=scaler.fit_transform(X)
+
+    #Splitting data into train-set
+X_train, X_test, y_train, y_test=train_test_split(X,y,test_size=0.33,random_state=100)
+
+print('Total Shape of Train X:',X_train.shape)
+print('Total Shape of Train Y:',y_train.shape)
+print('Total Shape of Test X:',X_test.shape)
+
+X_arr=np.array(X_train)
+X_test_arr=np.array(X_test)
+
+y_arr=np.array(y_train).reshape(len(y_train),1)
+y_test_arr=np.array(y_test).reshape(len(y_test),1)
+
+print(X_arr.shape)
+print(X_test_arr.shape)
+print(y_arr.shape)
 
 
 
