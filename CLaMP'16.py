@@ -207,7 +207,30 @@ plt.legend(loc='lower right')
 plt.title('SVC with StdScaler')
 
 
+# Pre-processing the data to enable one-hot encoding on the categorical cloumns
 
+type_df=pd.DataFrame(df.dtypes).reset_index()
+type_df.columns=['cols', 'type']
+type_df[type_df['type']=='object']['cols'].unique()
+
+print('Total unique values in "packer_type":',df['packer_type'].nunique())
+
+    #Extracting required levels only based on value counts
+packer_unique_df=pd.DataFrame(df['packer_type'].value_counts()).reset_index()
+packer_unique_df.columns=['packer_type','unique_count']
+catg=packer_unique_df[packer_unique_df['unique_count']>10]['packer_type'].unique()
+
+encoded=pd.get_dummies(df['packer_type'])
+encoded=encoded[[col for col in list(encoded.columns) if col in catg]]
+print('Shape of encode :',encoded.shape)
+
+    #Concatenating the encoded columns
+ #Conditional Automation
+if set(catg).issubset(set(df.columns))==False:
+    df=pd.concat([df,encoded],axis=1)
+    df.drop(columns='packer_type',inplace=True)
+
+df.shape
 
 
 
