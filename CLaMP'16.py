@@ -23,6 +23,7 @@ from sklearn.feature_selection import RFE
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import roc_curve, auc
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import roc_curve, roc_auc_score, classification_report
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
@@ -261,30 +262,31 @@ print(X_test_arr.shape)
 print(y_arr.shape)
 
 
+#k-nearest neighbors(KNN) Classifications
 
-#Utility UDF's regarding dis cal
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_arr,y_arr)
+sklearn_preds = knn.predict(X_test_arr)
 
-    # distance calculation udf
-def minkowski_(point_a, point_b, p=2):
-    if p == 1:
-        print('----> Manhattan')
-        dist = np.sum(abs(point_a - point_b))
-        print('Manual Distance :', dist)
-    elif p == 2:
-        # print('----> Euclidean')
-        dist = np.sqrt(np.sum(np.square(point_a - point_b)))
-        # print('Manual Distance :',dist)
+score = roc_auc_score(y_test_arr, sklearn_preds)
+print('1. ROC AUC: %.3f' % score)
+print('2. Accuracy :',accuracy_score(y_test_arr, sklearn_preds))
+print('3. Classification Report -\n',classification_report(y_test_arr, sklearn_preds))
+print('4. Confusion Matrix - \n',confusion_matrix(y_test_arr, sklearn_preds))
 
-    return dist
 
-    #Calculate distance from one point to all other points including itself
-def distance_to_all(curr_vec,data,p_=2):
+#Random Forest(RF) Classifier with default hyperparameters
 
-    distance_list = []
+rf_clf=RandomForestClassifier(random_state=100,n_jobs=-1)
+rf_clf.fit(X_train,y_train)
+rf_pred=rf_clf.predict(X_test)
+rf_pred_proba=rf_clf.predict_proba(X_test)
 
-    for vec_idx in range(len(data)):
-        dist = minkowski_(point_a=curr_vec,point_b=data[vec_idx],p=p_)
-        distance_list.append(dist)
+score=roc_auc_score(y_test,rf_pred)
+print('1. ROC AUC: %.3f' % score)
+print('2. Accuracy :',accuracy_score(y_test, rf_pred))
+print('3. Classification Report -\n',classification_report(y_test, rf_pred))
+print('4. Confusion Matrix - \n',confusion_matrix(y_test, rf_pred))
 
-    return distance_list
 
+    
