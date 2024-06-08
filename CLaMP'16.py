@@ -27,7 +27,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler,LabelEncoder
 from sklearn.manifold import TSNE
 from sklearn.tree import DecisionTreeClassifier
+
 df = pd.read_csv('C:/Users/O M A R/Desktop/kaggle/ClaMP_Integrated-5184.csv')
+
 print(df)
 print(df.head())
 print(df.info())
@@ -49,6 +51,7 @@ plt.show()
 # Exploratory Data Analysis(EDA)
 numeric_df = df.select_dtypes(include=['number'])
 corr = numeric_df.corr().stack().reset_index(name="correlation")
+
     # Create the correlation plot
 g = sns.relplot(
 data=corr,
@@ -62,7 +65,9 @@ for label in g.ax.get_xticklabels():
     label.set_rotation(90)
 for artist in g.legend.legendHandles:
     artist.set_edgecolor(".7")
+    
     # Display the plot
+print(df['packer_type'])
 dabl.plot(df,target_col='class')
 plt.show()
 
