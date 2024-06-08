@@ -3,6 +3,7 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 import dabl
+import numba
 import random
 import plotly.express as px
 import math
@@ -11,24 +12,21 @@ import imblearn
 import warnings
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix,recall_score, accuracy_score, classification_report,f1_score
 from sklearn.feature_selection import RFE
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.feature_selection import RFE
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import roc_curve, auc
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import roc_curve, roc_auc_score, classification_report
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier
+from sklearn.metrics import roc_curve, auc,roc_auc_score, classification_report
 from sklearn.svm import SVC
+from sklearn import svm
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.preprocessing import StandardScaler,LabelEncoder
+from sklearn.manifold import TSNE
+from sklearn.tree import DecisionTreeClassifier
 df = pd.read_csv('C:/Users/O M A R/Desktop/kaggle/ClaMP_Integrated-5184.csv')
 print(df)
 print(df.head())
