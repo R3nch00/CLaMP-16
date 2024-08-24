@@ -629,3 +629,63 @@ print('3. Classification Report -\n', classification_rep)
 print('4. Confusion Matrix - \n', conf_matrix)
 print('5. F1 Score: %.3f' % f1)
 
+
+
+import pandas as pd
+
+# Assuming your data is in a DataFrame called df
+data = {
+    'Algorithm': ['1D-CNN', 'LSTM', 'MLP', 'RNN', 'Random Forest', 'Decision Tree', 'KNN', 'SVM', 'Logistic Regression'],
+    'Accuracy': [0.975, 0.975, 0.980, 0.975, 0.993, 0.977, 0.973, 0.945, 0.959],
+    'Recall': [0.990, 0.990, 0.990, 0.990, 0.990, 0.980, 0.970, 0.940, 0.960],
+    'F1 score': [0.975, 0.975, 0.981, 0.975, 0.993, 0.978, 0.750, 0.949, 0.962],
+    'Precision': [0.960, 0.960, 0.980, 0.960, 0.990, 0.970, 0.980, 0.960, 0.970],
+    'ROC AUC': [0.991, 0.991, 0.980, 0.991, 0.993, 0.977, 0.973, 0.945, 0.960]
+}
+
+df = pd.DataFrame(data)
+
+# Calculate the average for each algorithm/model
+df['Avg'] = df[['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC']].mean(axis=1)
+
+# Determine the best in how many metrics
+best_counts = (df[['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC']] == df[['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC']].max()).sum(axis=1)
+df['Best in how many matrix'] = best_counts
+
+print(df)
+
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+# Assuming your data is in a DataFrame called df
+data = {
+    'Algorithm': ['1D-CNN', 'LSTM', 'MLP', 'RNN', 'Random Forest', 'Decision Tree', 'KNN', 'SVM', 'Logistic Regression'],
+    'Accuracy': [0.975, 0.975, 0.980, 0.975, 0.993, 0.977, 0.973, 0.945, 0.959],
+    'Recall': [0.990, 0.990, 0.990, 0.990, 0.990, 0.980, 0.970, 0.940, 0.960],
+    'F1 score': [0.975, 0.975, 0.981, 0.975, 0.993, 0.978, 0.750, 0.949, 0.962],
+    'Precision': [0.960, 0.960, 0.980, 0.960, 0.990, 0.970, 0.980, 0.960, 0.970],
+    'ROC AUC': [0.991, 0.991, 0.980, 0.991, 0.993, 0.977, 0.973, 0.945, 0.960],
+    'Avg': [0.9782, 0.9782, 0.9822, 0.9782, 0.9918, 0.9764, 0.9292, 0.9478, 0.9622],
+    'Best in how many matrix': [1, 1, 1, 1, 5, 0, 0, 0, 0]
+}
+
+df = pd.DataFrame(data)
+
+# Normalize the metrics
+scaler = MinMaxScaler()
+metrics = ['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC', 'Avg', 'Best in how many matrix']
+df[metrics] = scaler.fit_transform(df[metrics])
+
+# Calculate the composite score (equal weights for simplicity)
+df['Composite Score'] = df[metrics].mean(axis=1)
+
+# Rank the models based on the composite score
+df['Rank'] = df['Composite Score'].rank(ascending=False, method='min')
+
+# Sort the DataFrame by the rank
+df_sorted = df.sort_values(by='Rank')
+
+print("Ranking based on Composite Score:")
+print(df_sorted[['Algorithm', 'Composite Score', 'Rank']])
+
