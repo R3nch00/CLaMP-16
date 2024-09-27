@@ -23,6 +23,8 @@ from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier
 from sklearn.metrics import roc_curve, auc,roc_auc_score, classification_report
 from sklearn.svm import SVC
 from sklearn import svm
+from sklearn.decomposition import PCA
+from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler,LabelEncoder
 from sklearn.manifold import TSNE
@@ -31,12 +33,61 @@ from sklearn.tree import DecisionTreeClassifier
 df = pd.read_csv('C:/Users/O M A R/Desktop/kaggle/ClaMP_Integrated-5184.csv')
 
 #Display DataFrame Information
+
 print(df)
 print(df.head())
 print(df.info())
 print(df.columns)
 print(df.shape)
 print(df.describe())
+
+#Principle Component Analysis - PCA
+
+print(df.dtypes)  # check data types     
+df = pd.get_dummies(df, drop_first=True)  # This converts categorical variables to numeric
+
+    # Separate features and target labels
+X = df.drop(columns=['class'])  # Drop the target column to get features
+y = df['class']  # Target label column
+
+    # Encode target labels if necessary
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y)
+
+    # Standardize the data
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+    # Apply PCA and select the first 20 principal components
+pca = PCA(n_components=20)  # Retain the first 20 principal components
+X_pca = pca.fit_transform(X_scaled)
+
+    # Create Dataframe for the PCA Results
+pca_df = pd.DataFrame(data=X_pca, columns=[f'PC{i+1}' for i in range(X_pca.shape[1])])
+
+pca_components = pd.DataFrame(data=pca.components_, columns=X.columns, index=[f'PC{i+1}' for i in range(pca.n_components_)])
+pca_components = pca_components.T  # Transpose for better readability
+
+explained_variance = pca.explained_variance_ratio_
+explained_variance_df = pd.DataFrame({'Principal Component': [f'PC{i+1}' for i in range(len(explained_variance))],
+                                       'Explained Variance Ratio': explained_variance})
+
+    # Print the PCA component contributions
+print("\nOriginal Column Contributions to Each Principal Component:")
+print(pca_components)
+
+    # Split the data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X_pca, y, test_size=0.3, random_state=42)
+
+    # Train a classifier
+clf = RandomForestClassifier()
+clf.fit(X_train, y_train)
+
+    # Make prediction & Evaluate the Model
+y_pred = clf.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy after applying PCA: {accuracy * 100:.2f}%")
 
 #Check for 'null value'
 numeric_df = df.select_dtypes(include=['number'])
