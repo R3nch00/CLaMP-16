@@ -725,7 +725,7 @@ df = pd.DataFrame(data)
 
 # Normalize the metrics
 scaler = MinMaxScaler()
-metrics = ['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC', 'Avg', 'Best in how many matrix']
+metrics = ['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC', 'Avg', 'Best in how many metrices']
 df[metrics] = scaler.fit_transform(df[metrics])
 
 # Calculate the composite score (equal weights for simplicity)
