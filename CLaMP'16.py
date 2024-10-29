@@ -702,7 +702,7 @@ df['Avg'] = df[['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC']].mean(
 
 # Determine the best in how many metrics
 best_counts = (df[['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC']] == df[['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC']].max()).sum(axis=1)
-df['Best in how many matrix'] = best_counts
+df['Best in how many metrices'] = best_counts
 
 print(df)
 
@@ -719,12 +719,12 @@ data = {
     'Precision': [0.960, 0.960, 0.980, 0.960, 0.990, 0.970, 0.980, 0.960, 0.970],
     'ROC AUC': [0.991, 0.991, 0.980, 0.991, 0.993, 0.977, 0.973, 0.945, 0.960],
     'Avg': [0.9782, 0.9782, 0.9822, 0.9782, 0.9918, 0.9764, 0.9292, 0.9478, 0.9622],
-    'Best in how many matrix': [1, 1, 1, 1, 5, 0, 0, 0, 0]
+    'Best in how many metrices': [1, 1, 1, 1, 5, 0, 0, 0, 0]
 }
 
 df = pd.DataFrame(data)
 
-# Normalize the metrics
+# Normalize the metrices
 scaler = MinMaxScaler()
 metrics = ['Accuracy', 'Recall', 'F1 score', 'Precision', 'ROC AUC', 'Avg', 'Best in how many metrices']
 df[metrics] = scaler.fit_transform(df[metrics])
