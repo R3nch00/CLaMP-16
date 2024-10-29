@@ -110,16 +110,21 @@ corr = numeric_df.corr().stack().reset_index(name="correlation")
 
 # Create the correlation plot
 g = sns.relplot(
-data=corr,
-x="level_0", y="level_1", hue="correlation", size="correlation",
-palette="vlag", hue_norm=(-1, 1), edgecolor=".7",
-height=10, sizes=(50, 250), size_norm=(-.2, .8))
+    data=corr,
+    x="level_0", y="level_1", hue="correlation", size="correlation",
+    palette="vlag", hue_norm=(-1, 1), edgecolor=".7",
+    height=10, sizes=(50, 250), size_norm=(-.2, .8)
+)
+
 g.set(xlabel="", ylabel="", aspect="equal")
 g.despine(left=True, bottom=True)
 g.ax.margins(.02)
+
 for label in g.ax.get_xticklabels():
     label.set_rotation(90)
-for artist in g.legend.legend_handles:
+    
+#update the legend handling   
+for artist in g.legend.got_lines():
     artist.set_edgecolor(".7")
 
     # Display the plot
@@ -128,6 +133,7 @@ dabl.plot(df,target_col='class')
 plt.show()
 
 # Print the class distribution
+
 class_distribution = df['class'].value_counts()
 print("Class Distribution:")
 print(class_distribution)
@@ -204,84 +210,67 @@ plt.title('SVM Polynomial Receiver Operating Characteristic')
 plt.legend(loc='lower right')
 plt.show()
 
-#SVC-Support Vector Classification
-pt = df['packer_type'].unique()
-p_types = {pt[i] : i for i in range(len(pt))}
-temp = []
-for t in df['packer_type']:
-    temp.append(p_types[t])
-df['pt_num'] = temp
-cl = df.pop('class')
-df.pop('packer_type') # packer_type column changed to pt_num column with corr. Integers
+# Check if 'packer_type' exists in the DataFrame
+if 'packer_type' in df.columns:
+    # Create a mapping of unique packer types to integers
+    pt = df['packer_type'].unique()
+    p_types = {pt[i]: i for i in range(len(pt))}
+    
+    # Map packer_type to numeric values
+    df['pt_num'] = df['packer_type'].map(p_types)
 
-x_train, x_test, y_train, y_test = train_test_split(df, cl, random_state=0) #DataFrame was spillted into training and testing sets
+    # Pop the target column and packer_type
+    cl = df.pop('class')
+    df.drop(columns='packer_type', inplace=True)  # Drop the original column
 
-  #Pipeline made to scale & classify data
-pipeStd = Pipeline([('scaler', StandardScaler()), ('svm', SVC(random_state=0))])
-pipeStd.fit(x_train, y_train)
+    # Proceed with the train-test split
+    from sklearn.model_selection import train_test_split
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.svm import SVC
+    from sklearn.model_selection import GridSearchCV
+    from sklearn.metrics import classification_report, roc_curve, roc_auc_score
+    import matplotlib.pyplot as plt
 
-  # Best parameters found SVM Classifier and cross-validated by using GridSe archCV & SVC
-param_grid = {'svm__C':[0.1, 1, 10, 100, 200, 300], 'svm__gamma':[0.001, 0.005, 0.01, 0.1, 1]}
+    x_train, x_test, y_train, y_test = train_test_split(df, cl, random_state=0)
 
-grid = GridSearchCV(pipeStd, param_grid, cv = 5, n_jobs = -1)
-grid.fit(x_train.to_numpy(), y_train)
+    # Pipeline made to scale & classify data
+    pipeStd = Pipeline([('scaler', StandardScaler()), ('svm', SVC(random_state=0))])
+    pipeStd.fit(x_train, y_train)
 
-   # Some core classification metrics
-print('SVC score after StdScaler: {:.3f}'.format(
-    grid.score(x_test.to_numpy(), y_test)))
-print("SVC's best score on cross validation: {:.3f}".format(
-    grid.best_score_))
-print("Classifier's best parameters: {}".format(grid.best_params_))
-pred_val = grid.predict(x_test.to_numpy())
-print(classification_report(
-    y_test, pred_val, target_names=['benign', 'malicious'], digits=3))
+    # Best parameters found SVM Classifier and cross-validated
+    param_grid = {'svm__C': [0.1, 1, 10, 100, 200, 300], 'svm__gamma': [0.001, 0.005, 0.01, 0.1, 1]}
+    grid = GridSearchCV(pipeStd, param_grid, cv=5, n_jobs=-1)
+    grid.fit(x_train.to_numpy(), y_train)
 
-  #ROC-AUC score with plot
-fpr, tpr, thresholds = roc_curve(
-    y_test, grid.best_estimator_['svm'].decision_function(
-        grid.best_estimator_['scaler'].transform(
-            x_test.to_numpy())))
-auc = roc_auc_score(y_test, grid.best_estimator_['svm'].decision_function(
-        grid.best_estimator_['scaler'].transform(
-            x_test.to_numpy())))
-close_zero = np.argmin(np.abs(thresholds))
+    # Some core classification metrics
+    print('SVC score after StdScaler: {:.3f}'.format(grid.score(x_test.to_numpy(), y_test)))
+    print("SVC's best score on cross-validation: {:.3f}".format(grid.best_score_))
+    print("Classifier's best parameters: {}".format(grid.best_params_))
+    
+    pred_val = grid.predict(x_test.to_numpy())
+    print(classification_report(y_test, pred_val, target_names=['benign', 'malicious'], digits=3))
 
-plt.figure(figsize=(5, 5), dpi=200)
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
+    # ROC-AUC score with plot
+    fpr, tpr, thresholds = roc_curve(
+        y_test, grid.best_estimator_['svm'].decision_function(
+            grid.best_estimator_['scaler'].transform(x_test.to_numpy()))
+    )
+    auc = roc_auc_score(y_test, grid.best_estimator_['svm'].decision_function(
+        grid.best_estimator_['scaler'].transform(x_test.to_numpy()))
+    )
+    close_zero = np.argmin(np.abs(thresholds))
 
-plt.plot(fpr, tpr, label='ROC curve (AUC = {:.3f})'.format(auc),
-    color='g')
-plt.plot(fpr[close_zero], tpr[close_zero], 'o', markersize=10,
-    label="Absolute zero edge", fillstyle='none', color='r')
-plt.legend(loc='lower right')
-plt.title('SVC with StdScaler')
-
-# Pre-processing the data to enable one-hot encoding on the categorical cloumns
-
-type_df=pd.DataFrame(df.dtypes).reset_index()
-type_df.columns=['cols', 'type']
-type_df[type_df['type']=='object']['cols'].unique()
-
-print('Total unique values in "packer_type":',df['packer_type'].nunique())
-
-    #Extracting required levels only based on value counts
-packer_unique_df=pd.DataFrame(df['packer_type'].value_counts()).reset_index()
-packer_unique_df.columns=['packer_type','unique_count']
-catg=packer_unique_df[packer_unique_df['unique_count']>10]['packer_type'].unique()
-
-encoded=pd.get_dummies(df['packer_type'])
-encoded=encoded[[col for col in list(encoded.columns) if col in catg]]
-print('Shape of encode :',encoded.shape)
-
-    #Concatenating the encoded columns
- #Conditional Automation
-if set(catg).issubset(set(df.columns))==False:
-    df=pd.concat([df,encoded],axis=1)
-    df.drop(columns='packer_type',inplace=True)
-
-df.shape
-
+    plt.figure(figsize=(5, 5), dpi=200)
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.plot(fpr, tpr, label='ROC curve (AUC = {:.3f})'.format(auc), color='g')
+    plt.plot(fpr[close_zero], tpr[close_zero], 'o', markersize=10, label="Absolute zero edge", fillstyle='none', color='r')
+    plt.legend(loc='lower right')
+    plt.title('SVC with StdScaler')
+    plt.show()
+else:
+    print("'packer_type' column not found in the DataFrame. Please check your data.")
 
 #Separate the target Col for Analysis & Scaling the data(Standard scaler)
 
@@ -309,6 +298,8 @@ y_test_arr=np.array(y_test).reshape(len(y_test),1)
 print(X_arr.shape)
 print(X_test_arr.shape)
 print(y_arr.shape)
+
+#### MACHINE LEARNING ALGORITHM  ###
 
 
 # k-nearest neighbors(KNN) Classifications
@@ -379,6 +370,11 @@ print('4. Confusion Matrix - \n', conf_matrix)
 print('5. F1 Score: %.3f' % f1)
 
 # Adaboost Classifier
+
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.metrics import roc_auc_score, accuracy_score, classification_report, confusion_matrix, f1_score
+import matplotlib.pyplot as plt
+
 # Initialize the AdaBoost classifier
 ada_clf = AdaBoostClassifier(n_estimators=50, learning_rate=1.0, random_state=100)
 
@@ -404,22 +400,27 @@ print('4. Confusion Matrix - \n', conf_matrix)
 print('5. F1 Score: %.3f' % f1)
 
 # Adaboost Model [Matrix]
-confmat1=confusion_matrix(y_true=y_test, y_pred=y_clf)
+confmat1 = confusion_matrix(y_true=y_test, y_pred=ada_pred)  # Use ada_pred instead of y_clf
 
 print(confmat1)
 
-fig, ax =plt.subplots(figsize=(12.5, 12.5))
-ax.matshow(confmat1,  cmap=plt.cm.OrRd, alpha=0.30)
+# Plotting the confusion matrix
+fig, ax = plt.subplots(figsize=(12.5, 12.5))
+ax.matshow(confmat1, cmap=plt.cm.OrRd, alpha=0.30)
 for i in range(confmat1.shape[0]):
-  for j in range(confmat1.shape[1]):
-    ax.text(x=j, y=i,
-            s=confmat1[i, j],
-            va='center', ha='center')
-    plt.title('Using Adaboost model at 97% accuracy prediction & 97% F-1 score on the malware dataset for identify false negatives and false positives as well as true positives and true negatives. With 0 benine and 1 had a Malware.')
-    plt.xlabel('Predicted label')
-    plt.ylabel('True Label')
+    for j in range(confmat1.shape[1]):
+        ax.text(x=j, y=i,
+                s=confmat1[i, j],
+                va='center', ha='center')
+
+plt.title('Using Adaboost model at 97% accuracy prediction & 97% F-1 score on the malware dataset for identifying false negatives and false positives as well as true positives and true negatives. With 0 benign and 1 had a Malware.')
+plt.xlabel('Predicted label')
+plt.ylabel('True Label')
+plt.show()
+
       
 # Logistic Regression
+
 # Initialize the Logistic Regression classifier
 log_reg_clf = LogisticRegression(random_state=100, max_iter=1000)
 
@@ -497,7 +498,7 @@ print('4. Confusion Matrix - \n', conf_matrix)
 print('5. F1 Score: %.3f' % f1)
 
 
-#### MODEL ###
+#### DEEP LEARNING  MODEL ###
 
 # Multi-Layer Perceptron (MLP)
 
@@ -529,7 +530,7 @@ print('3. Classification Report -\n', classification_rep)
 print('4. Confusion Matrix - \n', conf_matrix)
 print('5. F1 Score: %.3f' % f1)
 
-# 1D-CNN
+# 1-Dimensional Convolutional Neural Networks (1D-CNN)
 
 import numpy as np
 import tensorflow as tf
@@ -582,10 +583,10 @@ print('4. Confusion Matrix - \n', conf_matrix)
 print('5. F1 Score: %.3f' % f1)
 
 
-#Recurrent Neural Network
+#Recurrent Neural Network (RNN)
 
 import numpy as np
-import tensorflow
+import tensorflow as tf
 import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Embedding
