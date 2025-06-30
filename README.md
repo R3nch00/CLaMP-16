@@ -73,13 +73,14 @@ Malware classification pipeline was developed through a structured and iterative
 
 📈 **Evaluation Metrics**
         Compared model performance using:
-        •	Accuracy
-        •	Precision
-        •	Recall
-        •	F1-Score
-        •	Confusion Matrix
-        •	ROC-AUC Curve
-
+```bash
+        Accuracy
+        Precision
+        Recall
+        F1-Score
+        Confusion Matrix
+        ROC-AUC Curve
+```
 ## ✅ Dependencies
 This project was developed in Python using common data science libraries. To run the notebooks, make sure the following packages are installed -
    ```bash
