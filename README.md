@@ -7,11 +7,10 @@ This repository contains my thesis work on malware classification using the **CL
 ## 📁 Repository Structure
 ```bash
 CLaMP-16/
-├── notebooks/
+├── Jupyter notebooks/
 │ ├── CLaMP16_malware_classification_v1.ipynb # Initial version
 │ └── CLaMP16_malware_classification.ipynb # Updated/final version
-├── data/ # (Optional) Kaggle dataset files
-├── requirements.txt # Python dependencies
+├── ClaMP_Integrated-5184.csv/ #  Kaggle dataset files
 └── README.md # This file
 ```
 
