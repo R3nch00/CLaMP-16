@@ -49,10 +49,10 @@ CLaMP-16/
 ## 🧪 Methodology
 Malware classification pipeline was developed through a structured and iterative approach involving data preprocessing, model experimentation, and performance evaluation. The key stages of the methodology are as follows -
 1. 📥 **Data Loading & Cleaning**
-           - Loaded and cleaned the CLaMP dataset
-           - Handled missing values
-          - Label-encoded categorical variables
-            - Normalized numerical features
+            Loaded and cleaned the CLaMP dataset
+            Handled missing values
+            Label-encoded categorical variables
+            Normalized numerical features
 
 2. 📊 **Exploratory Data Analysis (EDA)**
         •	Visualized class distributions and feature correlations
