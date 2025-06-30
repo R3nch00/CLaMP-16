@@ -1,4 +1,4 @@
-# Classification of Malware(CLaMP-16): Malware Classification Thesis
+# Classification of Malware(CLaMP-16)
 
 This repository contains my thesis work on malware classification using the **CLaMP** dataset from Kaggle. The project was implemented in **Python**, executed through **Jupyter Notebooks**, and includes two versions of the notebook that document the progression of the thesis project:
         🔹 **CLaMP16_malware_classification_v1.ipynb** — Initial Version
@@ -89,3 +89,31 @@ This project was developed in Python using common data science libraries. To run
    •	Build a REST API endpoint for real time malware prediction
    •	Visualize predictions using interactive dashboards (e.g., Plotly, Dash)
 
+
+
+🧪 Methodology
+The malware classification pipeline was developed through a structured and iterative approach involving data preprocessing, model experimentation, and performance evaluation. The key stages are:
+
+📥 Data Loading & Cleaning
+
+Loaded and cleaned the CLaMP dataset
+
+Handled missing values
+
+Label-encoded categorical variables
+
+Normalized numerical features
+
+📊 Exploratory Data Analysis (EDA)
+
+Visualized class distributions and feature correlations
+
+Identified imbalances to guide preprocessing
+
+🛠️ Feature Engineering
+
+Selected key features based on correlation and importance
+
+Applied dimensionality reduction techniques
+
+Prepared datasets for ML and DL models
