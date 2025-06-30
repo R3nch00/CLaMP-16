@@ -46,30 +46,37 @@ CLaMP-16/
    •	v1.ipynb: Original pipeline and baseline
    •	.ipynb: Final, polished modeling steps
 
-## 📊 Methodology
+## 🧪 Methodology
 Malware classification pipeline was developed through a structured and iterative approach involving data preprocessing, model experimentation, and performance evaluation. The key stages of the methodology are as follows
-  🧹 **Data Loading & Cleaning** - Loaded and cleaned CLaMP dataset: handled missing values; label-encoded categories; normalized features
-  📊 **Exploratory Data Analysis (EDA)** - Visualized class distributions, feature correlations, and stats; identified imbalances to guide preprocessing
-  🛠️ **Feature Engineering** - Selected key features via correlation and importance; applied dimensionality reduction; prepared data for ML and DL models
-  🤖 **Model Training** - The project involves extensive experimentation with both machine learning and deep learning models for malware classification using the CLaMP dataset
-        🔹 Traditional Machine Learning Models - These models were trained with varying feature sets and evaluated using standard classification metrics (accuracy, precision, recall, F1-score, ROC-AUC).
-              K-Nearest Neighbors (KNN)
-              Random Forest (RF)
-              Naive Bayes (NB)
-              AdaBoost
-              Logistic Regression (LR)
-              Decision Tree (DT)
-              Linear Discriminant Analysis (LDA)
-``
-        🔹 Deep Learning Models - Deep learning models were implemented using TensorFlow/Keras and trained on processed numerical features. Hyperparameter tuning and architectural variations were applied to optimize performance.
-              Multilayer Perceptron (MLP)
-              1D Convolutional Neural Network (1D-CNN)
-              Recurrent Neural Network (RNN)   
-              Long Short-Term Memory (LSTM)
-              Gated Recurrent Unit (GRU)
-  📈 **Evaluation Metrics** - Recorded, compared, and analyzed model performance to identify top approaches for CLaMP malware classification
+📥 **Data Loading & Cleaning**
+        •	Loaded and cleaned the CLaMP dataset
+        •	Handled missing values
+        •	Label-encoded categorical variables
+        •	Normalized numerical features
+
+📊 **Exploratory Data Analysis (EDA)**
+        •	Visualized class distributions and feature correlations
+        •	Identified imbalances to guide preprocessing
+
+🛠️ **Feature Engineering**
+        •	Selected key features based on correlation and importance
+        •	Applied dimensionality reduction techniques
+        •	Prepared datasets for ML and DL models
+        
+🤖 **Model Training**
+        **Traditional ML Models**: KNN, RF, NB, AdaBoost, LR, DT, LDA
+        •	Trained with various feature sets
+        •	Evaluated using accuracy, precision, recall, F1-score, ROC-AUC
+        **Deep Learning Models**: MLP, 1D-CNN, RNN, LSTM, GRU
+        •	Built with TensorFlow/Keras
+        •	Applied hyperparameter tuning and architectural variations
+
+📈 **Evaluation Metrics**
+        Compared model performance using:
         •	Accuracy
-        •	Precision, Recall, and F1-Score
+        •	Precision
+        •	Recall
+        •	F1-Score
         •	Confusion Matrix
         •	ROC-AUC Curve
 
@@ -91,29 +98,4 @@ This project was developed in Python using common data science libraries. To run
 
 
 
-🧪 Methodology
-The malware classification pipeline was developed through a structured and iterative approach involving data preprocessing, model experimentation, and performance evaluation. The key stages are:
 
-📥 Data Loading & Cleaning
-
-Loaded and cleaned the CLaMP dataset
-
-Handled missing values
-
-Label-encoded categorical variables
-
-Normalized numerical features
-
-📊 Exploratory Data Analysis (EDA)
-
-Visualized class distributions and feature correlations
-
-Identified imbalances to guide preprocessing
-
-🛠️ Feature Engineering
-
-Selected key features based on correlation and importance
-
-Applied dimensionality reduction techniques
-
-Prepared datasets for ML and DL models
