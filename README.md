@@ -1,8 +1,8 @@
 # Classification of Malware(CLaMP-16)
 
 This repository contains my thesis work on malware classification using the **CLaMP** dataset from Kaggle. The project was implemented in **Python**, executed through **Jupyter Notebooks**, and includes two versions of the notebook that document the progression of the thesis project:
-        - 🔹 **CLaMP16_malware_classification_v1.ipynb** — Initial Version
-        - 🔹 **CLaMP16_malware_classification.ipynb** — Updated/Final Version
+         🔹 **CLaMP16_malware_classification_v1.ipynb** — Initial Version
+         🔹 **CLaMP16_malware_classification.ipynb** — Updated/Final Version
 
 ## 📁 Repository Structure
 
@@ -34,9 +34,9 @@ CLaMP-16/
    ```bash
    pip install -r requirements.txt
 
-3. ##**[Optional] Download the CLaMP dataset**
-   - •	Source: Kaggle (“CLaMP – Malware Classification”)
-   - •	Save CSV files under data/
+3. **[Optional] Download the CLaMP dataset**
+   •	Source: Kaggle (“CLaMP – Malware Classification”)
+   •	Save CSV files under data/
 
 4. **Launch Jupyter Notebook**
    ```bash
@@ -47,12 +47,12 @@ CLaMP-16/
    •	.ipynb: Final, polished modeling steps
 
 ## 🧪 Methodology
-Malware classification pipeline was developed through a structured and iterative approach involving data preprocessing, model experimentation, and performance evaluation. The key stages of the methodology are as follows
+Malware classification pipeline was developed through a structured and iterative approach involving data preprocessing, model experimentation, and performance evaluation. The key stages of the methodology are as follows -
 1. 📥 **Data Loading & Cleaning**
-        •	Loaded and cleaned the CLaMP dataset
-        •	Handled missing values
-        •	Label-encoded categorical variables
-        •	Normalized numerical features
+           - Loaded and cleaned the CLaMP dataset
+           - Handled missing values
+          - Label-encoded categorical variables
+            - Normalized numerical features
 
 2. 📊 **Exploratory Data Analysis (EDA)**
         •	Visualized class distributions and feature correlations
