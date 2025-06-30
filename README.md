@@ -34,9 +34,9 @@ CLaMP-16/
    ```bash
    pip install -r requirements.txt
 
-3. **[Optional] Download the CLaMP dataset**
-   •	Source: Kaggle (“CLaMP – Malware Classification”)
-   •	Save CSV files under data/
+3. ##**[Optional] Download the CLaMP dataset**
+   - •	Source: Kaggle (“CLaMP – Malware Classification”)
+   - •	Save CSV files under data/
 
 4. **Launch Jupyter Notebook**
    ```bash
