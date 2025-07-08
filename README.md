@@ -5,6 +5,9 @@ CLaMP-16 is a malware classification project implemented in Python using Jupyter
 This repository contains my thesis work on malware classification using the **CLaMP** dataset from Kaggle. The project was implemented in **Python**, executed through **Jupyter Notebooks**, and includes two versions of the notebook that document the progression of the thesis project:
          🔹 **CLaMP16_malware_classification_v1.ipynb** — Initial Version
          🔹 **CLaMP16_malware_classification.ipynb** — Updated/Final Version
+         
+## 📥 Direct download link:
+You can download the dataset files directly from the repository. Here’s the raw link for the integrated version: https://github.com/urwithajit9/ClaMP/blob/master/ClaMP_Integrated-5184.csv
 
 ## 📁 Repository Structure
 ```bash
