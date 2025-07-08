@@ -7,7 +7,7 @@ This repository contains my thesis work on malware classification using the **CL
          🔹 **CLaMP16_malware_classification.ipynb** — Updated/Final Version
          
 ## 📥 Data Availability
-You can download the dataset files directly from the repository. Here’s the raw link for the integrated version: https://github.com/urwithajit9/ClaMP/blob/master/ClaMP_Integrated-5184.csv
+You can download the dataset files directly from the repository. Here’s the raw link for the integrated version: https://github.com/urwithajit9/ClaMP/tree/master/dataset
 
 ## 📁 Repository Structure
 ```bash
